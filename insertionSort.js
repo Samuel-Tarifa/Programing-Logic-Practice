@@ -12,10 +12,10 @@ function insertionSort(array) {
         break;
       } else {
         array[j] = SE;
-        if(j!==1) SE = array[j - 2];
+        if (j !== 1) SE = array[j - 2];
         else {
-          array[0]=NTI
-          break
+          array[0] = NTI;
+          break;
         }
       }
     }
@@ -23,6 +23,5 @@ function insertionSort(array) {
   return array;
 }
 
-
-const arr = [-6,-8-9,12,3,4, 20, 8, -2, 4];
-console.log('resultado',insertionSort(arr));
+const arr = [-6, -8 - 9, 12, 3, 4, 20, 8, -2, 4];
+console.log("resultado", insertionSort(arr)); //[ -17, -6, -2,  3, 4, 4,  8, 12, 20]
