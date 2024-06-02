@@ -1,24 +1,12 @@
 function insertionSort(array) {
-  let NTI;
-  let SE = array[0];
-
   for (let i = 1; i < array.length; i++) {
-    NTI = array[i];
-
-    for (let j = i; j > 0; j--) {
-      if (SE < NTI) {
-        array[j] = NTI;
-        SE = array[i];
-        break;
-      } else {
-        array[j] = SE;
-        if (j !== 1) SE = array[j - 2];
-        else {
-          array[0] = NTI;
-          break;
-        }
-      }
+    let numberToInsert = array[i];
+    let j = i - 1;
+    while (j >= 0 && array[j] > numberToInsert) {
+      array[j + 1] = array[j];
+      j--;
     }
+    array[j + 1] = numberToInsert;
   }
   return array;
 }
