@@ -1,0 +1,6 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  border: 2px cyan solid;
+  color: rgb(255, 162, 162);
+}
