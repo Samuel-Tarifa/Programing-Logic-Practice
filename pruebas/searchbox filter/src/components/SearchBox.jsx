@@ -1,87 +1,59 @@
 import { FaSearch, FaTimes } from "react-icons/fa";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useRef } from "react";
 
+import useItems from "../hooks/useItems";
 
-function SearchBox(){
-  const [items, setItems] = useState();
-  const [filteredItems, setFilteredItems] = useState();
+function SearchBox() {
   const [input, setInput] = useState("");
   const inputRef = useRef();
 
-  useEffect(() => {
-    fetch("https://randomuser.me/api/?results=50&inc=name,id&nat=us")
-      .then((res) => res.json())
-      .then((data) => {
-        const formattedArray = data.results.map((e) => {
-          e.name = Object.values(e.name).join(" ");
-          e.id = e.id.value;
-          return e;
-        });
-        setItems(formattedArray);
-      });
-  }, []);
-
-  const filterNames = useCallback(
-    (input) => {
-      if (!items) return [];
-      const result = items.filter((item) => {
-        return (
-          item.name.slice(0, input.length).toLowerCase() === input.toLowerCase()
-        );
-      });
-      return result;
-    },
-    [items]
-  );
+  const { filteredItems } = useItems(input);
 
   const isInputFocused = () => {
     if (!inputRef.current || inputRef.current.value === "") return false;
     return document.activeElement === inputRef.current;
   };
 
-  const clearInput=()=>{
-    setInput('')
-  }
+  const clearInput = () => {
+    setInput("");
+  };
 
-  useEffect(() => {
-    setFilteredItems(filterNames(input));
-  }, [input, filterNames]);
   return (
     <main className="min-h-[100vh] p-10">
-    <section className="flex flex-col border-black border">
-      <header className="flex items-center gap-4 w-full justify-between p-4 border">
-        <input
-          type="text"
-          value={input}
-          ref={inputRef}
-          onChange={(e) => setInput(e.target.value)}
-          className="bg-inherit grow rounded-full border border-black w-full py-1 px-4"
-        />
-        {isInputFocused() && (
-          <button onClick={()=>clearInput()}>
-            <FaTimes />
-          </button>
-        )}
-        {!isInputFocused() && <FaSearch />}
-      </header>
-      <ul className="flex flex-col">
-        {!filteredItems && <li className="p-2 text-center">Cargando...</li>}
-        {filteredItems && filteredItems.length === 0 && (
-          <li className="p-2 text-center">No matches</li>
-        )}
-        {filteredItems &&
-          filteredItems.map((item) => {
-            return (
-              <li key={item.id} className="border p-2 text-center">
-                <strong>{item.name.slice(0,input?.length)}</strong>
-                {item.name.slice(input?.length,item.name.length)}
-              </li>
-            );
-          })}
-      </ul>
-    </section>
-  </main>
-  )
+      <section className="flex flex-col border-black border">
+        <header className="flex items-center gap-4 w-full justify-between p-4 border">
+          <input
+            type="text"
+            value={input}
+            ref={inputRef}
+            onChange={(e) => setInput(e.target.value)}
+            className="bg-inherit grow rounded-full border border-black w-full py-1 px-4"
+          />
+          {isInputFocused() && (
+            <button onClick={() => clearInput()}>
+              <FaTimes />
+            </button>
+          )}
+          {!isInputFocused() && <FaSearch />}
+        </header>
+        <ul className="flex flex-col">
+          {!filteredItems && <li className="p-2 text-center">Cargando...</li>}
+          {filteredItems && filteredItems.length === 0 && (
+            <li className="p-2 text-center">No matches</li>
+          )}
+          {filteredItems &&
+            filteredItems.map((item) => {
+              return (
+                <li key={item.id} className="border p-2 text-center">
+                  <strong>{item.name.slice(0, input?.length)}</strong>
+                  {item.name.slice(input?.length, item.name.length)}
+                </li>
+              );
+            })}
+        </ul>
+      </section>
+    </main>
+  );
 }
 
-export default SearchBox
+export default SearchBox;
