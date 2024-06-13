@@ -1,5 +1,3 @@
-const arr=[2,5,1,6]
+const string='Hola'
 
-arr.splice(1,0)
-
-console.log(arr)
+console.log(string.slice(0,2))
