@@ -1,12 +1,12 @@
 import { useState,useEffect,useCallback } from "react";
+import getItems from "../services/getItems";
 
 function useItems(input) {
   const [items, setItems] = useState();
   const [filteredItems, setFilteredItems] = useState();
 
   useEffect(() => {
-    fetch("https://randomuser.me/api/?results=50&inc=name,id&nat=us")
-      .then((res) => res.json())
+    getItems()
       .then((data) => {
         const formattedArray = data.results.map((e) => {
           e.name = Object.values(e.name).join(" ");
