@@ -3,8 +3,8 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 
 function SearchBox(){
-  const [names, setNames] = useState();
-  const [filteredNames, setFilteredNames] = useState();
+  const [items, setItems] = useState();
+  const [filteredItems, setFilteredItems] = useState();
   const [input, setInput] = useState("");
   const inputRef = useRef();
 
@@ -17,21 +17,21 @@ function SearchBox(){
           e.id = e.id.value;
           return e;
         });
-        setNames(formattedArray);
+        setItems(formattedArray);
       });
   }, []);
 
   const filterNames = useCallback(
     (input) => {
-      if (!names) return [];
-      const result = names.filter((item) => {
+      if (!items) return [];
+      const result = items.filter((item) => {
         return (
           item.name.slice(0, input.length).toLowerCase() === input.toLowerCase()
         );
       });
       return result;
     },
-    [names]
+    [items]
   );
 
   const isInputFocused = () => {
@@ -44,7 +44,7 @@ function SearchBox(){
   }
 
   useEffect(() => {
-    setFilteredNames(filterNames(input));
+    setFilteredItems(filterNames(input));
   }, [input, filterNames]);
   return (
     <main className="min-h-[100vh] p-10">
@@ -65,12 +65,12 @@ function SearchBox(){
         {!isInputFocused() && <FaSearch />}
       </header>
       <ul className="flex flex-col">
-        {!filteredNames && <li className="p-2 text-center">Cargando...</li>}
-        {filteredNames && filteredNames.length === 0 && (
+        {!filteredItems && <li className="p-2 text-center">Cargando...</li>}
+        {filteredItems && filteredItems.length === 0 && (
           <li className="p-2 text-center">No matches</li>
         )}
-        {filteredNames &&
-          filteredNames.map((item) => {
+        {filteredItems &&
+          filteredItems.map((item) => {
             return (
               <li key={item.id} className="border p-2 text-center">
                 <strong>{item.name.slice(0,input?.length)}</strong>
