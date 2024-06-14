@@ -1,3 +1,4 @@
-const string='Hola'
+const string='az'
+const array=[2,2,3,3,0,0,0,0]
 
-console.log(string.slice(0,2))
+console.log(array.toString())
